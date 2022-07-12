@@ -1,6 +1,7 @@
 package net.grigdim.sms.services;
 
 import net.grigdim.sms.entities.Student;
+import net.grigdim.sms.exceptions.StudentNotFoundException;
 import net.grigdim.sms.repos.StudentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,14 @@ public class StudentService {
         return studentRepo.save(student);
     }
 
-    public Student getStudentById(Long id) {
-        return studentRepo.findById(id).get();
+    public Student getStudentById(Long id) throws StudentNotFoundException {
+
+        Optional<Student> student = studentRepo.findById(id);
+
+        if (!student.isPresent()) {
+            throw new StudentNotFoundException("Student with id : " + id + " was not found");
+        }
+        return student.get();
     }
 
     public Student updateStudent(Long id, Student student) {
@@ -45,7 +52,7 @@ public class StudentService {
         return studentRepo.save(student);
     }
 
-    public void deleteStudent(Long id){
+    public void deleteStudent(Long id) {
         studentRepo.deleteById(id);
     }
 }

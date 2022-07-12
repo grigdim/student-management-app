@@ -1,6 +1,7 @@
 package net.grigdim.sms.controllers;
 
 import net.grigdim.sms.entities.Student;
+import net.grigdim.sms.exceptions.StudentNotFoundException;
 import net.grigdim.sms.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,7 @@ public class StudentController {
     }
 
     @GetMapping("/students/edit/{id}")
-    public String editStudentForm(@PathVariable("id") Long id, Model model){
+    public String editStudentForm(@PathVariable("id") Long id, Model model) throws StudentNotFoundException {
         model.addAttribute("student", studentService.getStudentById(id));
         return "edit_student";
     }
@@ -46,9 +47,14 @@ public class StudentController {
         return "redirect:/students";
     }
 
+//    @GetMapping("/students/{id}")
+//    public String deleteStudent(@PathVariable Long id){
+//        studentService.deleteStudent(id);
+//        return "redirect:/students";
+//    }
+
     @GetMapping("/students/{id}")
-    public String deleteStudent(@PathVariable Long id){
-        studentService.deleteStudent(id);
-        return "redirect:/students";
+    public Student getStudentById(@PathVariable("id") Long id) throws StudentNotFoundException {
+        return studentService.getStudentById(id);
     }
 }
