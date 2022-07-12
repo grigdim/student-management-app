@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -26,7 +27,21 @@ public class StudentService {
         return studentRepo.findById(id).get();
     }
 
-    public Student updateStudent(Student student) {
+    public Student updateStudent(Long id, Student student) {
+
+        Student existingStudent = studentRepo.findById(id).get();
+
+        existingStudent.setId(id);
+        if (Objects.nonNull(existingStudent.getFirstName()) && !"".equalsIgnoreCase(existingStudent.getFirstName())) {
+            existingStudent.setFirstName(student.getFirstName());
+        }
+        if (Objects.nonNull(existingStudent.getLastName()) && !"".equalsIgnoreCase(existingStudent.getLastName())) {
+            existingStudent.setLastName(student.getLastName());
+        }
+        if (Objects.nonNull(existingStudent.getEmail()) && !"".equalsIgnoreCase(existingStudent.getEmail())) {
+            existingStudent.setEmail(student.getEmail());
+        }
+
         return studentRepo.save(student);
     }
 
