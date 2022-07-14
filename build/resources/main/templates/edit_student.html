@@ -40,7 +40,7 @@
             <br>
             <h1 class="text-center">Update New Student</h1>
             <div class="card-body">
-                <form th:action="@{/students/{id} (id=${student.id})}" th:object="${student}" method="POST">
+                <form th:action="@{/students/{id} (id=${student.id})}" th:object="${student}" method="PUT">
                     <div class="form-group">
                         <label> First Name</label>
                         <br>
